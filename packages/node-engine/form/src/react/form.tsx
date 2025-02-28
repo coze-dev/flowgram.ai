@@ -9,7 +9,7 @@ import { FormModelContext } from './context';
 
 export type FormProps<TValues> = FormOptions & {
   /**
-   * React children or child render prop
+   * React children or child render propxxx
    */
   children?: ((props: FormRenderProps<TValues>) => React.ReactNode) | React.ReactNode;
 
