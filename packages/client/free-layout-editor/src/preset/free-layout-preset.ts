@@ -1,6 +1,6 @@
 import { createSelectBoxPlugin } from '@flowgram.ai/select-box-plugin';
 import { createFreeStackPlugin, StackingContextManager } from '@flowgram.ai/free-stack-plugin';
-import { createFreeLinesPlugin, FreeLinesPluginOptions } from '@flowgram.ai/free-lines-plugin';
+import { createFreeLinesPlugin } from '@flowgram.ai/free-lines-plugin';
 import {
   WorkflowCommands,
   WorkflowNodeEntity,
