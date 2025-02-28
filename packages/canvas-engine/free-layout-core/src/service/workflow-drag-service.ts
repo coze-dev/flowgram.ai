@@ -28,6 +28,7 @@ import {
 } from '@flowgram.ai/core';
 
 import { WorkflowLinesManager } from '../workflow-lines-manager';
+import { WorkflowDocumentOptions } from '../workflow-document-option';
 import { WorkflowDocument } from '../workflow-document';
 import { WorkflowCommands } from '../workflow-commands';
 import { type WorkflowNodeJSON, type WorkflowNodeMeta } from '../typings';
@@ -77,14 +78,17 @@ export interface NodesDragEndEvent extends INodesDragEvent {
 }
 
 export type NodesDragEvent = NodesDragEndEvent;
-type OnDragNodeEnd = (params: {
+
+export type onDragLineEndParams = {
   fromPort: WorkflowPortEntity;
   toPort?: WorkflowPortEntity;
   mousePos: PositionSchema;
   line?: WorkflowLineEntity;
   originLine?: WorkflowLineEntity;
   event: PlaygroundDragEvent;
-}) => Promise<void>;
+};
+
+export type OnDragLineEnd = (params: onDragLineEndParams) => Promise<void>;
 
 @injectable()
 export class WorkflowDragService {
@@ -103,6 +107,9 @@ export class WorkflowDragService {
 
   @inject(FlowOperationBaseService)
   protected operationService: FlowOperationBaseService;
+
+  @inject(WorkflowDocumentOptions)
+  readonly options: WorkflowDocumentOptions;
 
   private _onDragLineEventEmitter = new Emitter<LineEventProps>();
 
@@ -124,11 +131,14 @@ export class WorkflowDragService {
     (params: { selectedNodes: WorkflowNodeEntity[]; position: IPoint }) => IPoint
   > = new Set();
 
-  private _onDragLineEndCallbacks: Map<string, OnDragNodeEnd> = new Map();
+  private _onDragLineEndCallbacks: Map<string, OnDragLineEnd> = new Map();
 
   @postConstruct()
   init() {
     this._toDispose.pushAll([this._onDragLineEventEmitter, this._nodesDragEmitter]);
+    if (this.options.onDragLineEnd) {
+      this._toDispose.push(this.onDragLineEnd(this.options.onDragLineEnd));
+    }
   }
 
   dispose() {
@@ -173,6 +183,7 @@ export class WorkflowDragService {
             // 按住 alt 为复制
             const tryCopyNodes = selectedNodes;
             if (tryCopyNodes.length > 0) {
+              this.selectService.clear();
               this.commandService
                 .executeCommand(WorkflowCommands.PASTE_NODES, tryCopyNodes, true)
                 .then((newNodes) => {
@@ -744,7 +755,7 @@ export class WorkflowDragService {
   }
 
   /** 线条拖拽结束 */
-  public onDragLineEnd(callback: OnDragNodeEnd): Disposable {
+  public onDragLineEnd(callback: OnDragLineEnd): Disposable {
     const id = nanoid();
     this._onDragLineEndCallbacks.set(id, callback);
     return {

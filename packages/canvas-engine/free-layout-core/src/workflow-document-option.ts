@@ -5,6 +5,7 @@ import { TransformData } from '@flowgram.ai/core';
 import { type WorkflowLinesManager } from './workflow-lines-manager';
 import { toFormJSON } from './utils/flow-node-form-data';
 import { LineColor, LineRenderType, WorkflowNodeJSON, WorkflowNodeMeta } from './typings';
+import { onDragLineEndParams } from './service';
 import {
   type WorkflowLineEntity,
   type WorkflowLinePortInfo,
@@ -44,6 +45,8 @@ export interface WorkflowDocumentOptions extends FlowDocumentOptions {
   isDisabledLine?: (line: WorkflowLineEntity) => boolean;
   /** 是否竖向线条 */
   isVerticalLine?: (line: WorkflowLineEntity) => boolean;
+  /** 拖拽线条结束 */
+  onDragLineEnd?: (params: onDragLineEndParams) => Promise<void>;
   /** 获取线条渲染器 */
   setLineRenderType?: (line: WorkflowLineEntity) => LineRenderType | undefined;
   /** 设置线条样式 */

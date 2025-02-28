@@ -3,6 +3,7 @@ import { HistoryService } from '@flowgram.ai/history';
 import {
   LineColor,
   LineRenderType,
+  onDragLineEndParams,
   WorkflowContentChangeEvent,
   WorkflowContentChangeType,
   WorkflowDocument,
@@ -123,6 +124,12 @@ export interface FreeLayoutProps extends EditorProps<FreeLayoutPluginContext, Wo
    * @param line
    */
   isVerticalLine?: (ctx: FreeLayoutPluginContext, line: WorkflowLineEntity) => boolean;
+  /**
+   * 拖拽线条结束
+   * @param ctx
+   * @param params
+   */
+  onDragLineEnd?: (ctx: FreeLayoutPluginContext, params: onDragLineEndParams) => Promise<void>;
   /**
    * 设置线条渲染器类型
    * @param ctx

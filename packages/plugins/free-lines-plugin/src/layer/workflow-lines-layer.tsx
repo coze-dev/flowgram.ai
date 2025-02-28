@@ -27,6 +27,8 @@ export class WorkflowLinesLayer extends Layer<LinesLayerOptions> {
 
   @inject(WorkflowSelectService) selectService: WorkflowSelectService;
 
+  @inject(StackingContextManager) stackContext: StackingContextManager;
+
   @observeEntities(WorkflowLineEntity) readonly lines: WorkflowLineEntity[];
 
   @observeEntities(WorkflowPortEntity) readonly ports: WorkflowPortEntity[];
@@ -35,8 +37,6 @@ export class WorkflowLinesLayer extends Layer<LinesLayerOptions> {
   readonly trans: TransformData[];
 
   @inject(WorkflowDocument) protected workflowDocument: WorkflowDocument;
-
-  @inject(StackingContextManager) protected stackContext: StackingContextManager;
 
   private layerID = nanoid();
 

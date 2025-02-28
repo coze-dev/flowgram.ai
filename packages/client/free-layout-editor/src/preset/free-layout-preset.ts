@@ -1,6 +1,6 @@
 import { createSelectBoxPlugin } from '@flowgram.ai/select-box-plugin';
 import { createFreeStackPlugin, StackingContextManager } from '@flowgram.ai/free-stack-plugin';
-import { createFreeLinesPlugin, FreeLinesPluginOptions } from '@flowgram.ai/free-lines-plugin';
+import { createFreeLinesPlugin } from '@flowgram.ai/free-lines-plugin';
 import {
   WorkflowCommands,
   WorkflowNodeEntity,
@@ -153,6 +153,7 @@ export function createFreeLayoutPreset(
             isFlowingLine: opts.isFlowingLine?.bind(null, ctx),
             isDisabledLine: opts.isDisabledLine?.bind(null, ctx),
             isVerticalLine: opts.isVerticalLine?.bind(null, ctx),
+            onDragLineEnd: opts.onDragLineEnd?.bind(null, ctx),
             setLineRenderType: opts.setLineRenderType?.bind(null, ctx),
             setLineClassName: opts.setLineClassName?.bind(null, ctx),
             canDeleteNode: opts.canDeleteNode?.bind(null, ctx),
