@@ -3,7 +3,10 @@ import { useMemo } from 'react';
 
 import { createMinimapPlugin } from '@flowgram.ai/minimap-plugin';
 import { createFreeSnapPlugin } from '@flowgram.ai/free-snap-plugin';
-import { createFreeNodePanelPlugin } from '@flowgram.ai/free-node-panel-plugin';
+import {
+  createFreeNodePanelPlugin,
+  WorkflowNodePanelService,
+} from '@flowgram.ai/free-node-panel-plugin';
 import { createFreeLinesPlugin } from '@flowgram.ai/free-lines-plugin';
 import { FreeLayoutProps } from '@flowgram.ai/free-layout-editor';
 
@@ -68,6 +71,26 @@ export function useEditorProps(
        */
       canDeleteLine(ctx, line, newLineInfo, silent) {
         return true;
+      },
+      async onDragLineEnd(ctx, params) {
+        const nodePanelService = ctx.get(WorkflowNodePanelService);
+        const { fromPort, toPort, mousePos, line, originLine } = params;
+        if (originLine || !line) {
+          return;
+        }
+        if (toPort) {
+          return;
+        }
+        await nodePanelService.call({
+          fromPort,
+          toPort: undefined,
+          panelPosition: mousePos,
+          enableBuildLine: true,
+          panelProps: {
+            enableNodePlaceholder: true,
+            enableScrollClose: true,
+          },
+        });
       },
       /**
        * SelectBox config

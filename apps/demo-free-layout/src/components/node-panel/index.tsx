@@ -5,6 +5,7 @@ import { Popover } from '@douyinfe/semi-ui';
 
 import { NodePlaceholder } from './node-placeholder';
 import { NodeList } from './node-list';
+import './index.less';
 
 export const NodePanel: FC<NodePanelRenderProps> = (props) => {
   const { onSelect, position, onClose, panelProps } = props;
@@ -29,8 +30,8 @@ export const NodePanel: FC<NodePanelRenderProps> = (props) => {
                 position: 'absolute',
                 top: position.y - 61.5,
                 left: position.x,
-                width: 300,
-                height: 123,
+                width: 360,
+                height: 100,
               }
             : {
                 position: 'absolute',
