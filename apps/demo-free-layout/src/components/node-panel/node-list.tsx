@@ -19,7 +19,7 @@ const NodeWrap = styled.div`
   &:hover {
     background-color: hsl(252deg 62% 55% / 9%);
     color: hsl(252 62% 54.9%);
-  },
+  }
 `;
 
 const NodeLabel = styled.div`
