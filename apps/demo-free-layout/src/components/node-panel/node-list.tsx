@@ -62,9 +62,11 @@ export const NodeList: FC<NodeListProps> = (props) => {
   const { onSelect } = props;
   const context = useClientContext();
   const handleClick = (e: React.MouseEvent, registry: FlowNodeRegistry) => {
+    const json = registry.onAdd?.(context);
     onSelect({
       nodeType: registry.type as string,
       selectEvent: e,
+      nodeJSON: json,
     });
   };
   return (
